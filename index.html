@@ -139,6 +139,42 @@
 			max-width: 600px;
 			/* Largura máxima para não estourar o layout */
 		}
+
+		.carousel-image {
+			width: 100%;
+			opacity: 0;
+			transition: opacity 1s ease-in-out;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			object-fit: contain;
+			/* Ou cover */
+			transform: translate(-50%, -50%);
+		}
+
+		.carousel-image.active {
+			/* display: block; Remova esta linha */
+			opacity: 1;
+			position: absolute;
+			/* Garante que fique sobreposto */
+			top: 50%;
+			left: 50%;
+			object-fit: contain;
+			/* Ou cover */
+			transform: translate(-50%, -50%);
+		}
+
+		#carousel-container {
+			position: relative;
+			width: 100%;
+			max-width: 600px;
+			margin: 20px auto;
+			border-radius: 8px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			overflow: hidden;
+			height: 750px;
+			/* Defina a altura desejada aqui */
+		}
 	</style>
 </head>
 
@@ -208,7 +244,15 @@
 			<div id="loading-registro" style="display: none;">Registrando...</div>
 		</form>
 
-		<img loading="lazy" src="rifa.png" alt="Imagem Promocional da Rifa" id="imagem-promocional">
+		<div id="carousel-container">
+			<img class="carousel-image" src="rifa.png" alt="Imagem 1" style="width: 100%; ">
+			<img class="carousel-image" src="rifa2.jpg" alt="Imagem 2" style="width: 100%;">
+			<img class="carousel-image" src="rifa3.jpg" alt="Imagem 3" style="width: 100%;">
+			<button id="prev-button"
+				style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: none; border: none; font-size: 20px; cursor: pointer; color: #333;">&lt;</button>
+			<button id="next-button"
+				style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: none; border: none; font-size: 20px; cursor: pointer; color: #333;">&gt;</button>
+		</div>
 
 		<h2>Total cotas compradas</h2>
 		<div id="loading-inicial" style="display: none;">Carregando números...</div>
@@ -316,6 +360,61 @@
 				loadingRegistro.style.display = 'none';
 			}
 		});
+
+		const carouselContainer = document.getElementById('carousel-container');
+		const carouselImages = document.querySelectorAll('.carousel-image');
+		const prevButton = document.getElementById('prev-button');
+		const nextButton = document.getElementById('next-button');
+		let currentIndex = 0;
+		const intervalTime = 5000; // Tempo em milissegundos (5 segundos)
+		let intervalId;
+
+		function showImage(index) {
+			carouselImages.forEach((image, i) => {
+				if (i === index) {
+					image.classList.add('active');
+				} else {
+					image.classList.remove('active');
+				}
+			});
+		}
+
+		function nextImage() {
+			currentIndex = (currentIndex + 1) % carouselImages.length;
+			showImage(currentIndex);
+		}
+
+		function prevImage() {
+			currentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
+			showImage(currentIndex);
+		}
+
+		function startCarousel() {
+			intervalId = setInterval(nextImage, intervalTime);
+		}
+
+		function stopCarousel() {
+			clearInterval(intervalId);
+		}
+
+		// Iniciar o carrossel automaticamente
+		startCarousel();
+
+		// Pausar o carrossel ao passar o mouse e reiniciar ao sair
+		carouselContainer.addEventListener('mouseenter', stopCarousel);
+		carouselContainer.addEventListener('mouseleave', startCarousel);
+
+		// Navegação manual
+		nextButton.addEventListener('click', () => {
+			nextImage();
+		});
+
+		prevButton.addEventListener('click', () => {
+			prevImage();
+		});
+
+		// Mostrar a primeira imagem ao carregar a página
+		showImage(currentIndex);
 	</script>
 </body>
 
