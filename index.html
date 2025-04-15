@@ -164,7 +164,7 @@
 <body>
     <header>
         <h1>Rifa Beneficente</h1>
-        <p>Ajude uma causa nobre e concorra a prêmios incríveis!</p>
+        <p>Ajude uma causa nobre e concorra a um lindo centro de mesa!</p>
         </header>
 
     <main>
@@ -180,10 +180,9 @@
     <table id="tabela-numeros">
         <thead>
             <tr>
-                <th>Número</th>
+                <th>Cotas</th>
                 <th>Status</th>
                 <th>Nome</th>
-                <th>Reservados</th>
             </tr>
         </thead>
         <tbody>
@@ -199,7 +198,7 @@
 
     <h2>Registrar sua escolha</h2>
     <form id="form-registro">
-        <label for="numero">Número Escolhido:</label>
+        <label for="numero">Quantidade de Cotas:</label>
         <input type="number" id="numero" name="numero" required><br><br>
         <label for="nome">Seu Nome:</label>
         <input type="text" id="nome" name="nome" required><br><br>
@@ -215,7 +214,7 @@
         </footer>
 
     <script>
-        const apiUrl = 'https://script.google.com/macros/s/AKfycby7Aw9YynE1_ZSHVrbYIQLoVcHRURZeaLtEenZgLnw3OdUYvQ2zeG9a0pm8IM-SyIIz-Q/exec'; // Substitua pelo URL do seu script
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbxTyZJuWNwdW72lYMVNyz-4c5G2YQOy0TFmiXzGeQskQV4LD7DpK58aOWjm_U77MrbCVQ/exec'; // Substitua pelo URL do seu script
 
         const tabelaNumeros = document.getElementById('tabela-numeros').getElementsByTagName('tbody')[0];
         const loadingInicial = document.getElementById('loading-inicial');
@@ -235,12 +234,10 @@
                     const numeroCell = row.insertCell();
                     const statusCell = row.insertCell();
                     const nomeCell = row.insertCell();
-                    const quantidadeCell = row.insertCell(); // Nova célula para a quantidade
 
-                    numeroCell.textContent = item.numero;
+                    numeroCell.textContent = item.cotas;
                     statusCell.textContent = item.status;
                     nomeCell.textContent = item.nome ? item.nome.split(' ')[0] : '-'; // Exibe apenas o primeiro nome
-                    quantidadeCell.textContent = item.reservados || '1'; // Exibe a quantidade de itens reservados (assumindo que 'reservados' existe no seu JSON)
                 });
             } catch (error) {
                 console.error("Erro ao carregar números:", error);
@@ -255,11 +252,11 @@
         formRegistro.addEventListener('submit', async (event) => {
             event.preventDefault();
             loadingRegistro.style.display = 'block';
-            const numero = document.getElementById('numero').value;
+            const cotas = document.getElementById('cotas').value;
             const nome = document.getElementById('nome').value;
             const telefone = document.getElementById('telefone').value;
 
-            const dataToSend = { numero: numero, nome: nome, telefone: telefone };
+            const dataToSend = { cotas: cotas, nome: nome, telefone: telefone };
 
             try {
                 const response = await fetch(apiUrl, {
