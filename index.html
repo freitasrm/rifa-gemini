@@ -1,286 +1,322 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rifa Beneficente</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Rifa Beneficente</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0;
+			background-color: #f4f4f4;
+			color: #333;
+		}
 
-        header {
-            background-color: #5cb85c; /* Cor verde tema */
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
+		header {
+			background-color: #5cb85c;
+			/* Cor verde tema */
+			color: white;
+			padding: 20px 0;
+			text-align: center;
+		}
 
-        header h1 {
-            margin: 0;
-        }
+		header h1 {
+			margin: 0;
+		}
 
-        .banner {
-            width: 100%;
-            display: block;
-            margin-bottom: 20px;
-        }
+		.banner {
+			width: 100%;
+			display: block;
+			margin-bottom: 20px;
+			border-radius: 8px;
+			/* Opcional: bordas arredondadas */
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			/* Opcional: sombra suave */
+		}
 
-        main {
-            padding: 20px;
-            background-color: white;
-            margin: 20px auto;
-            max-width: 960px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
+		main {
+			padding: 20px;
+			background-color: white;
+			margin: 20px auto;
+			max-width: 960px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			border-radius: 8px;
+		}
 
-        h2 {
-            color: #5cb85c;
-            border-bottom: 2px solid #5cb85c;
-            padding-bottom: 10px;
-            margin-top: 30px;
-        }
+		h2 {
+			color: #5cb85c;
+			border-bottom: 2px solid #5cb85c;
+			padding-bottom: 10px;
+			margin-top: 30px;
+		}
 
-        #loading-inicial {
-            text-align: center;
-            margin-top: 10px;
-            font-style: italic;
-            color: #777;
-        }
+		#loading-inicial {
+			text-align: center;
+			margin-top: 10px;
+			font-style: italic;
+			color: #777;
+		}
 
-        #tabela-numeros {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
+		#tabela-numeros {
+			width: 100%;
+			border-collapse: collapse;
+			margin-top: 10px;
+		}
 
-        #tabela-numeros th, #tabela-numeros td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
+		#tabela-numeros th,
+		#tabela-numeros td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: left;
+		}
 
-        #tabela-numeros th {
-            background-color: #f2f2f2;
-        }
+		#tabela-numeros th {
+			background-color: #f2f2f2;
+		}
 
-        #form-registro label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+		#form-registro label {
+			display: block;
+			margin-bottom: 5px;
+			font-weight: bold;
+		}
 
-        #form-registro input[type="number"],
-        #form-registro input[type="text"],
-        #form-registro input[type="tel"] {
-            width: calc(100% - 12px);
-            padding: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+		#form-registro input[type="number"],
+		#form-registro input[type="text"],
+		#form-registro input[type="tel"] {
+			width: calc(100% - 12px);
+			padding: 8px;
+			margin-bottom: 15px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+		}
 
-        #form-registro button[type="submit"] {
-            background-color: #5cb85c;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1em;
-        }
+		#form-registro button[type="submit"] {
+			background-color: #5cb85c;
+			color: white;
+			padding: 10px 15px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 1em;
+		}
 
-        #form-registro button[type="submit"]:hover {
-            background-color: #4cae4c;
-        }
+		#form-registro button[type="submit"]:hover {
+			background-color: #4cae4c;
+		}
 
-        #loading-registro {
-            text-align: center;
-            margin-top: 10px;
-            font-style: italic;
-            color: #777;
-        }
+		#loading-registro {
+			text-align: center;
+			margin-top: 10px;
+			font-style: italic;
+			color: #777;
+		}
 
-        /* Estilos para tornar o site responsivo */
-        @media (max-width: 768px) {
-            main {
-                margin: 10px;
-                padding: 15px;
-            }
+		/* Estilos para tornar o site responsivo */
+		@media (max-width: 768px) {
+			main {
+				margin: 10px;
+				padding: 15px;
+			}
 
-            #tabela-numeros th, #tabela-numeros td {
-                font-size: 0.9em;
-                padding: 6px;
-            }
-        }
+			#tabela-numeros th,
+			#tabela-numeros td {
+				font-size: 0.9em;
+				padding: 6px;
+			}
+		}
 
-        /* Estilo para a imagem abaixo da tabela */
-        #imagem-promocional {
-            width: 100%; /* Ajuste a largura conforme necessário */
-            max-width: 600px; /* Largura máxima para não estourar o layout */
-            display: block;
-            margin: 20px auto; /* Centraliza a imagem e adiciona espaço */
-            border-radius: 8px; /* Opcional: bordas arredondadas */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Opcional: sombra suave */
-        }
-
-        .iframe-container {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 8px; /* Mantendo o arredondamento */
-    box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); /* Mantendo a sombra */
-    margin-top: 1.6em;
-    margin-bottom: 0.9em;
-}
-
-.iframe-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* Para o banner do Canva (proporção 16:9, ajuste conforme a sua necessidade) */
-.banner-container {
-    padding-top: 56.25%; /* 16:9 Aspect Ratio (height / width * 100) */
-}
-
-/* Para a imagem promocional do Canva (a proporção do seu design) */
-.imagem-promocional-container {
-    padding-top: 125%; /* Mantenha a proporção que você definiu */
-}
-    </style>
+		/* Estilo para a imagem promocional */
+		#imagem-promocional {
+			width: 100%;
+			display: block;
+			margin: 20px auto;
+			border-radius: 8px;
+			/* Opcional: bordas arredondadas */
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			/* Opcional: sombra suave */
+			max-width: 600px;
+			/* Largura máxima para não estourar o layout */
+		}
+	</style>
 </head>
+
 <body>
-    <header>
-        <h1>Rifa Beneficente</h1>
-        <p>Ajude uma causa nobre e concorra a um lindo centro de mesa!</p>
-        </header>
+	<header>
+		<h1>Rifa Beneficente</h1>
+		<p>Ajude uma causa nobre e concorra a um lindo centro de mesa!</p>
+	</header>
 
-    <main>
-    <div class="iframe-container banner-container">
-        <iframe loading="lazy" class="banner"
-            src="https://www.canva.com/design/DAGkpxmowUE/-61jt-a1_jfUP1_mJ1G7JA/view?embed"
-            allowfullscreen="allowfullscreen" allow="fullscreen">
-        </iframe>
-    </div>
+	<main>
+		<img loading="lazy" src="banner.png" alt="Banner da Rifa" class="banner">
 
-        <h2>Registrar sua escolha</h2>
-    <form id="form-registro">
-        <label for="cotas">Quantidade de Cotas:</label>
-        <input type="cotas" id="cotas" name="cotas" required><br><br>
-        <label for="nome">Seu Nome:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
-        <label for="telefone">Seu Telefone:</label>
-        <input type="tel" id="telefone" name="telefone" required><br><br>
-        <button type="submit">Registrar Escolha</button>
-        <div id="loading-registro" style="display: none;">Registrando...</div>
-    </form>
+		<section style="margin-bottom: 30px; text-align: center;">
+			<h2 style="color: #5cb85c; font-size: 2em; margin-bottom: 15px;">Ajude a Sorrir: Rifa Solidária com um Toque
+				de Elegância Sgabello!</h2>
+			<p style="line-height: 1.6; margin-bottom: 10px;">Transforme a vida de crianças e adultos da comunidade do
+				Taquari! O Projeto Saúde Bucal, em parceria com o Projeto Taquari, está promovendo uma rifa especial
+				para levar sorrisos mais saudáveis a quem precisa.</p>
+			<p style="line-height: 1.6; margin-bottom: 10px;">Ao participar, você não só concorre a um lindo centro de
+				mesa da Sgabello (<a href="https://sgabello.com.br/" target="_blank"
+					style="color: #007bff; text-decoration: none;">conheça a beleza e qualidade em sgabello.com.br</a> e
+				<a href="https://www.instagram.com/sgabellointeriores/" target="_blank"
+					style="color: #007bff; text-decoration: none;">instagram.com/sgabellointeriores/</a>), uma peça que
+				irá agregar ainda mais charme ao seu lar, como também estará investindo diretamente na saúde bucal da
+				comunidade do Taquari.
+			</p>
+			<p style="line-height: 1.6; margin-bottom: 10px;">Não perca essa chance de fazer o bem e ainda ser premiado!
+			</p>
+		</section>
 
-    <div class="iframe-container imagem-promocional-container">
-        <iframe loading="lazy" id="imagem-promocional"
-            src="https://www.canva.com/design/DAGkpeGgGEY/NJGYDWix-9cX64TEoV0xIQ/view?embed"
-            allowfullscreen="allowfullscreen" allow="fullscreen">
-        </iframe>
-    </div>
+		<section
+			style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
+			<p style="line-height: 1.6; margin-bottom: 5px;">As cotas são limitadas: serão sorteadas até 200 cotas. O
+				sorteio será realizado no dia 31 de maio de 2025 caso sejam vendidas mais de 100 cotas. Caso contrário,
+				a rifa será prolongada até atingirmos a arrecadação mínima necessária para o projeto.</p>
+			<p style="line-height: 1.6; margin-bottom: 5px;">Participe e seja parte dessa corrente de solidariedade!
+				Quanto mais rápido atingirmos a meta, mais cedo você poderá ter essa linda peça em sua casa!</p>
+		</section>
 
-         <h2>Total cotas compradas</h2>
-    <div id="loading-inicial" style="display: none;">Carregando números...</div>
-    <table id="tabela-numeros">
-        <thead>
-            <tr>
-                <th>Cotas</th>
-                <th>Nome</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+		<section
+			style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
+			<p style="font-weight: bold; margin-bottom: 5px;">Para participar:</p>
+			<ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
+				<li>Informe a quantidade de cotas desejadas;</li>
+				<li>Informe seu nome e telefone.</li>
+				<li>Faça o PIX para o telefone <span style="font-weight: bold;">(41) 99973-3087</span> (Solange Costa).
+				</li>
+				<li>Envie o comprovante do PIX para o telefone <span style="font-weight: bold;">(41) 99973-3087</span>.
+				</li>
+				<li>Ao receber a confirmação, você estará participando e seu nome será incluído na tabela abaixo.</li>
+			</ul>
+		</section>
 
-    
-</main>
+		<section style="margin-top: 30px; text-align: center; color: #5cb85c; font-weight: bold;">
+			<p style="font-size: 1.2em;">Juntos, podemos levar mais saúde e alegria para o Taquari!</p>
+		</section>
 
-    <footer>
-        <p style="text-align: center; margin-top: 20px; color: #777;">Organizado com ❤️</p>
-        </footer>
+		<h2>Registrar sua escolha</h2>
+		<form id="form-registro">
+			<label for="cotas">Quantidade de Cotas:</label>
+			<input type="number" id="cotas" name="cotas" required><br><br>
+			<label for="nome">Seu Nome:</label>
+			<input type="text" id="nome" name="nome" required><br><br>
+			<label for="telefone">Seu Telefone:</label>
+			<input type="tel" id="telefone" name="telefone" required><br><br>
+			<button type="submit">Registrar Escolha</button>
+			<div id="loading-registro" style="display: none;">Registrando...</div>
+		</form>
 
-    <script>
-        const apiUrl = 'https://script.google.com/macros/s/AKfycbzOjAIPGiORkf6aapshuGpd9suStNQW-eHGghm9ZuO6L9oz7McLY9YXQX4WyCu7QzaoMg/exec'; // Substitua pelo URL do seu script
+		<img loading="lazy" src="rifa.png" alt="Imagem Promocional da Rifa" id="imagem-promocional">
 
-        const tabelaNumeros = document.getElementById('tabela-numeros').getElementsByTagName('tbody')[0];
-        const loadingInicial = document.getElementById('loading-inicial');
-        const loadingRegistro = document.getElementById('loading-registro');
-        const formRegistro = document.getElementById('form-registro');
+		<h2>Total cotas compradas</h2>
+		<div id="loading-inicial" style="display: none;">Carregando números...</div>
+		<table id="tabela-numeros">
+			<thead>
+				<tr>
+					<th>Cotas</th>
+					<th>Nome</th>
+					<th>Telefone</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</main>
 
-        async function carregarNumeros() {
-            loadingInicial.style.display = 'block';
-            tabelaNumeros.innerHTML = ''; // Limpa a tabela antes de carregar
+	<footer>
+		<p style="text-align: center; margin-top: 20px; color: #777;">Organizado com ❤️</p>
+	</footer>
 
-            try {
-                const response = await fetch(apiUrl);
-                const data = await response.json();
+	<script>
+		const apiUrl = 'https://script.google.com/macros/s/AKfycbzYivDkS8xHNrhuLrlE3I9d1kobFTSo1dge5RUANvf1M8wzJJfUXfmYMhuABDr5JlCRZw/exec';
 
-                data.forEach(item => {
-                    const row = tabelaNumeros.insertRow();
-                    const numeroCell = row.insertCell();
-                    const nomeCell = row.insertCell();
+		const tabelaNumeros = document.getElementById('tabela-numeros').getElementsByTagName('tbody')[0];
+		const loadingInicial = document.getElementById('loading-inicial');
+		const loadingRegistro = document.getElementById('loading-registro');
+		const formRegistro = document.getElementById('form-registro');
+		const telefoneInput = document.getElementById('telefone');
 
-                    numeroCell.textContent = item.cotas;
-                    nomeCell.textContent = item.nome ? item.nome.split(' ')[0] : '-'; // Exibe apenas o primeiro nome
-                });
-            } catch (error) {
-                console.error("Erro ao carregar números:", error);
-                // Você pode exibir uma mensagem de erro na página aqui
-            } finally {
-                loadingInicial.style.display = 'none';
-            }
-        }
+		function formatarTelefone(telefone) {
+			const cleaned = ('' + telefone).replace(/\D/g, '');
+			const match = cleaned.match(/^(\d{2})(\d{0,5})(\d{0,4})$/);
+			if (match) {
+				return '(' + match[1] + ') ' + (match[2] ? match[2] + (match[3] ? '-' + match[3] : '') : '');
+			}
+			return telefone;
+		}
 
-        document.addEventListener('DOMContentLoaded', carregarNumeros);
+		telefoneInput.addEventListener('input', function (e) {
+			this.value = formatarTelefone(this.value);
+		});
 
-        formRegistro.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            loadingRegistro.style.display = 'block';
-            const cotas = document.getElementById('cotas').value;
-            const nome = document.getElementById('nome').value;
-            const telefone = document.getElementById('telefone').value;
+		async function carregarNumeros() {
+			loadingInicial.style.display = 'block';
+			tabelaNumeros.innerHTML = ''; // Limpa a tabela antes de carregar
 
-            const dataToSend = { cotas: cotas, nome: nome, telefone: telefone };
+			try {
+				const response = await fetch(apiUrl);
+				const data = await response.json();
 
-            try {
-                const response = await fetch(apiUrl, {
-                    method: "POST",
-                    mode: "no-cors",
-                    cache: "no-cache",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    redirect: "follow",
-                    body: JSON.stringify(dataToSend)
-                });
+				data.forEach(item => {
+					const row = tabelaNumeros.insertRow();
+					const numeroCell = row.insertCell();
+					const nomeCell = row.insertCell();
+					const telefoneCell = row.insertCell();
+					const statusCell = row.insertCell();
 
-                // Como estamos em modo "no-cors", não podemos acessar o corpo da resposta de forma confiável.
-                // Assumimos que a inclusão foi bem-sucedida do lado do cliente e recarregamos a tabela.
-                alert("Registro enviado!"); // Feedback básico para o usuário
-                carregarNumeros(); // Recarrega a lista de números após o registro
-                formRegistro.reset();
-            } catch (error) {
-                console.error("Erro ao registrar escolha:", error);
-                alert("Ocorreu um erro ao registrar sua escolha.");
-            } finally {
-                loadingRegistro.style.display = 'none';
-            }
-        });
-    </script>
+					numeroCell.textContent = item.cotas;
+					nomeCell.textContent = item.nome ? item.nome.split(' ')[0] : '-'; // Exibe apenas o primeiro nome
+					telefoneCell.textContent = item.telefone ? item.telefone.split(' ')[0] + '...' + item.telefone.split('-')[1] : '-'; // Exibe apenas o início e fim do número
+					statusCell.textContent = item.pago;
+
+				});
+			} catch (error) {
+				console.error("Erro ao carregar números:", error);
+				// Você pode exibir uma mensagem de erro na página aqui
+			} finally {
+				loadingInicial.style.display = 'none';
+			}
+		}
+
+		document.addEventListener('DOMContentLoaded', carregarNumeros);
+
+		formRegistro.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			loadingRegistro.style.display = 'block';
+			const cotas = document.getElementById('cotas').value;
+			const nome = document.getElementById('nome').value;
+			const telefone = document.getElementById('telefone').value;
+
+			const dataToSend = { cotas: cotas, nome: nome, telefone: telefone };
+
+			try {
+				const response = await fetch(apiUrl, {
+					method: "POST",
+					mode: "no-cors",
+					cache: "no-cache",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					redirect: "follow",
+					body: JSON.stringify(dataToSend)
+				});
+
+				// Como estamos em modo "no-cors", não podemos acessar o corpo da resposta de forma confiável.
+				// Assumimos que a inclusão foi bem-sucedida do lado do cliente e recarregamos a tabela.
+				alert("Registro enviado!"); // Feedback básico para o usuário
+				carregarNumeros(); // Recarrega a lista de números após o registro
+				formRegistro.reset();
+			} catch (error) {
+				console.error("Erro ao registrar escolha:", error);
+				alert("Ocorreu um erro ao registrar sua escolha.");
+			} finally {
+				loadingRegistro.style.display = 'none';
+			}
+		});
+	</script>
 </body>
+
 </html>
