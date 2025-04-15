@@ -1,107 +1,237 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rifa Beneficente</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #5cb85c; /* Cor verde tema */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .banner {
+            width: 100%;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        main {
+            padding: 20px;
+            background-color: white;
+            margin: 20px auto;
+            max-width: 960px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #5cb85c;
+            border-bottom: 2px solid #5cb85c;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+
+        #loading-inicial {
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+            color: #777;
+        }
+
+        #tabela-numeros {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        #tabela-numeros th, #tabela-numeros td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        #tabela-numeros th {
+            background-color: #f2f2f2;
+        }
+
+        #form-registro label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        #form-registro input[type="number"],
+        #form-registro input[type="text"],
+        #form-registro input[type="tel"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #form-registro button[type="submit"] {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        #form-registro button[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+
+        #loading-registro {
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+            color: #777;
+        }
+
+        /* Estilos para tornar o site responsivo */
+        @media (max-width: 768px) {
+            main {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            #tabela-numeros th, #tabela-numeros td {
+                font-size: 0.9em;
+                padding: 6px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Escolha seu número da rifa</h1>
-     <div id="loading-inicial" style="display: none;">Carregando números...</div>
-    <table id="tabela-numeros">
-        <thead>
-            <tr>
-                <th>Número</th>
-                <th>Status</th>
-                <th>Nome</th>
-                <th>Telefone</th>
-            </tr>
-        </thead>
-        <tbody>
-            </tbody>
-    </table>
+    <header>
+        <h1>Rifa Beneficente</h1>
+        <p>Ajude uma causa nobre e concorra a prêmios incríveis!</p>
+        </header>
 
-    <h2>Registrar sua escolha</h2>
-    <form id="form-registro">
-        <label for="numero">Número Escolhido:</label>
-        <input type="number" id="numero" name="numero" required><br><br>
-        <label for="nome">Seu Nome:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
-        <label for="telefone">Seu Telefone:</label>
-        <input type="tel" id="telefone" name="telefone" required><br><br>
-        <button type="submit">Registrar Escolha</button>
-        <div id="loading-registro" style="display: none;">Registrando...</div>
-    </form>
+    <main>
+        <img src="url_da_sua_imagem_banner.png" alt="Banner da Rifa" class="banner">
+
+        <h2>Escolha seu número da rifa</h2>
+        <div id="loading-inicial" style="display: none;">Carregando números...</div>
+        <table id="tabela-numeros">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Status</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+
+        <h2>Registrar sua escolha</h2>
+        <form id="form-registro">
+            <label for="numero">Número Escolhido:</label>
+            <input type="number" id="numero" name="numero" required><br><br>
+            <label for="nome">Seu Nome:</label>
+            <input type="text" id="nome" name="nome" required><br><br>
+            <label for="telefone">Seu Telefone:</label>
+            <input type="tel" id="telefone" name="telefone" required><br><br>
+            <button type="submit">Registrar Escolha</button>
+            <div id="loading-registro" style="display: none;">Registrando...</div>
+        </form>
+    </main>
+
+    <footer>
+        <p style="text-align: center; margin-top: 20px; color: #777;">Organizado com ❤️</p>
+        </footer>
 
     <script>
         const apiUrl = 'https://script.google.com/macros/s/AKfycby7Aw9YynE1_ZSHVrbYIQLoVcHRURZeaLtEenZgLnw3OdUYvQ2zeG9a0pm8IM-SyIIz-Q/exec'; // Substitua pelo URL do seu script
 
         const tabelaNumeros = document.getElementById('tabela-numeros').getElementsByTagName('tbody')[0];
-const loadingInicial = document.getElementById('loading-inicial');
-const loadingRegistro = document.getElementById('loading-registro');
-const formRegistro = document.getElementById('form-registro');
+        const loadingInicial = document.getElementById('loading-inicial');
+        const loadingRegistro = document.getElementById('loading-registro');
+        const formRegistro = document.getElementById('form-registro');
 
-async function carregarNumeros() {
-    loadingInicial.style.display = 'block';
-    tabelaNumeros.innerHTML = ''; // Limpa a tabela antes de carregar
+        async function carregarNumeros() {
+            loadingInicial.style.display = 'block';
+            tabelaNumeros.innerHTML = ''; // Limpa a tabela antes de carregar
 
-    try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
 
-        data.forEach(item => {
-            const row = tabelaNumeros.insertRow();
-            const numeroCell = row.insertCell();
-            const statusCell = row.insertCell();
-            const nomeCell = row.insertCell();
-            const telefoneCell = row.insertCell();
+                data.forEach(item => {
+                    const row = tabelaNumeros.insertRow();
+                    const numeroCell = row.insertCell();
+                    const statusCell = row.insertCell();
+                    const nomeCell = row.insertCell();
+                    const telefoneCell = row.insertCell();
 
-            numeroCell.textContent = item.numero;
-            statusCell.textContent = item.status;
-            nomeCell.textContent = item.nome || '-';
-            telefoneCell.textContent = item.telefone || '-';
+                    numeroCell.textContent = item.numero;
+                    statusCell.textContent = item.status;
+                    nomeCell.textContent = item.nome || '-';
+                    telefoneCell.textContent = item.telefone || '-';
+                });
+            } catch (error) {
+                console.error("Erro ao carregar números:", error);
+                // Você pode exibir uma mensagem de erro na página aqui
+            } finally {
+                loadingInicial.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarNumeros);
+
+        formRegistro.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            loadingRegistro.style.display = 'block';
+            const numero = document.getElementById('numero').value;
+            const nome = document.getElementById('nome').value;
+            const telefone = document.getElementById('telefone').value;
+
+            const dataToSend = { numero: numero, nome: nome, telefone: telefone };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    mode: "no-cors",
+                    cache: "no-cache",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    redirect: "follow",
+                    body: JSON.stringify(dataToSend)
+                });
+
+                // Como estamos em modo "no-cors", não podemos acessar o corpo da resposta de forma confiável.
+                // Assumimos que a inclusão foi bem-sucedida do lado do cliente e recarregamos a tabela.
+                alert("Registro enviado!"); // Feedback básico para o usuário
+                carregarNumeros(); // Recarrega a lista de números após o registro
+                formRegistro.reset();
+            } catch (error) {
+                console.error("Erro ao registrar escolha:", error);
+                alert("Ocorreu um erro ao registrar sua escolha.");
+            } finally {
+                loadingRegistro.style.display = 'none';
+            }
         });
-    } catch (error) {
-        console.error("Erro ao carregar números:", error);
-        // Você pode exibir uma mensagem de erro na página aqui
-    } finally {
-        loadingInicial.style.display = 'none';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', carregarNumeros);
-
-formRegistro.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    loadingRegistro.style.display = 'block';
-    const numero = document.getElementById('numero').value;
-    const nome = document.getElementById('nome').value;
-    const telefone = document.getElementById('telefone').value;
-
-    const dataToSend = { numero: numero, nome: nome, telefone: telefone };
-
-    try {
-        const response = await fetch(apiUrl, {
-            method: "POST",
-            mode: "no-cors",
-            cache: "no-cache",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            redirect: "follow",
-            body: JSON.stringify(dataToSend)
-        });
-
-        // Como estamos em modo "no-cors", não podemos acessar o corpo da resposta de forma confiável.
-        // Assumimos que a inclusão foi bem-sucedida do lado do cliente e recarregamos a tabela.
-        alert("Registro enviado!"); // Feedback básico para o usuário
-        carregarNumeros(); // Recarrega a lista de números após o registro
-        formRegistro.reset();
-    } catch (error) {
-        console.error("Erro ao registrar escolha:", error);
-        alert("Ocorreu um erro ao registrar sua escolha.");
-    } finally {
-        loadingRegistro.style.display = 'none';
-    }
-});
     </script>
 </body>
 </html>
