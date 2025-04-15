@@ -5,7 +5,19 @@
 </head>
 <body>
     <h1>Escolha seu número da rifa</h1>
-    <div id="lista-numeros"></div>
+     <div id="loading-inicial" style="display: none;">Carregando números...</div>
+    <table id="tabela-numeros">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Status</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+            </tr>
+        </thead>
+        <tbody>
+            </tbody>
+    </table>
 
     <h2>Registrar sua escolha</h2>
     <form id="form-registro">
@@ -16,50 +28,80 @@
         <label for="telefone">Seu Telefone:</label>
         <input type="tel" id="telefone" name="telefone" required><br><br>
         <button type="submit">Registrar Escolha</button>
+        <div id="loading-registro" style="display: none;">Registrando...</div>
     </form>
 
     <script>
         const apiUrl = 'https://script.google.com/macros/s/AKfycby7Aw9YynE1_ZSHVrbYIQLoVcHRURZeaLtEenZgLnw3OdUYvQ2zeG9a0pm8IM-SyIIz-Q/exec'; // Substitua pelo URL do seu script
 
-        async function carregarNumeros() {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-            const listaNumerosDiv = document.getElementById('lista-numeros');
-            listaNumerosDiv.innerHTML = '';
-            data.forEach(item => {
-                const numeroDiv = document.createElement('div');
-                numeroDiv.textContent = `Número: ${item.numero}, Status: ${item.status}, Nome: ${item.nome || '-'}, Telefone: ${item.telefone || '-'}`;
-                listaNumerosDiv.appendChild(numeroDiv);
-            });
-        }
+        const tabelaNumeros = document.getElementById('tabela-numeros').getElementsByTagName('tbody')[0];
+const loadingInicial = document.getElementById('loading-inicial');
+const loadingRegistro = document.getElementById('loading-registro');
+const formRegistro = document.getElementById('form-registro');
 
-        document.addEventListener('DOMContentLoaded', carregarNumeros);
+async function carregarNumeros() {
+    loadingInicial.style.display = 'block';
+    tabelaNumeros.innerHTML = ''; // Limpa a tabela antes de carregar
 
-        const formRegistro = document.getElementById('form-registro');
-        formRegistro.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const numero = document.getElementById('numero').value;
-            const nome = document.getElementById('nome').value;
-            const telefone = document.getElementById('telefone').value;
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
 
-            const dataToSend = { numero: numero, nome: nome, telefone: telefone };
+        data.forEach(item => {
+            const row = tabelaNumeros.insertRow();
+            const numeroCell = row.insertCell();
+            const statusCell = row.insertCell();
+            const nomeCell = row.insertCell();
+            const telefoneCell = row.insertCell();
 
-            const response = await fetch(apiUrl, {
-                method: "POST",
-                mode: "no-cors", 
-                cache: "no-cache",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                redirect: "follow", 
-                body: JSON.stringify(dataToSend)
-            });
-
-            const result = await response.json();
-            alert(result.mensagem || result.erro);
-            carregarNumeros(); // Recarrega a lista após o registro
-            formRegistro.reset();
+            numeroCell.textContent = item.numero;
+            statusCell.textContent = item.status;
+            nomeCell.textContent = item.nome || '-';
+            telefoneCell.textContent = item.telefone || '-';
         });
+    } catch (error) {
+        console.error("Erro ao carregar números:", error);
+        // Você pode exibir uma mensagem de erro na página aqui
+    } finally {
+        loadingInicial.style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', carregarNumeros);
+
+formRegistro.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    loadingRegistro.style.display = 'block';
+    const numero = document.getElementById('numero').value;
+    const nome = document.getElementById('nome').value;
+    const telefone = document.getElementById('telefone').value;
+
+    const dataToSend = { numero: numero, nome: nome, telefone: telefone };
+
+    try {
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            mode: "no-cors",
+            cache: "no-cache",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            body: JSON.stringify(dataToSend)
+        });
+
+        // Como estamos em modo "no-cors", não podemos acessar o corpo da resposta de forma confiável.
+        // Assumimos que a inclusão foi bem-sucedida do lado do cliente e recarregamos a tabela.
+        alert("Registro enviado!"); // Feedback básico para o usuário
+        carregarNumeros(); // Recarrega a lista de números após o registro
+        formRegistro.reset();
+    } catch (error) {
+        console.error("Erro ao registrar escolha:", error);
+        alert("Ocorreu um erro ao registrar sua escolha.");
+    } finally {
+        loadingRegistro.style.display = 'none';
+    }
+});
     </script>
 </body>
 </html>
