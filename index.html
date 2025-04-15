@@ -45,10 +45,13 @@
             const dataToSend = { numero: numero, nome: nome, telefone: telefone };
 
             const response = await fetch(apiUrl, {
-                method: 'POST',
+                method: "POST",
+                mode: "no-cors", 
+                cache: "no-cache",
                 headers: {
-                    'Content-Type': 'application/json'
+                  "Content-Type": "application/json",
                 },
+                redirect: "follow", 
                 body: JSON.stringify(dataToSend)
             });
 
