@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rifa Beneficente</title>
+</head>
+<body>
+    <h1>Escolha seu número da rifa</h1>
+    <div id="lista-numeros"></div>
+
+    <h2>Registrar sua escolha</h2>
+    <form id="form-registro">
+        <label for="numero">Número Escolhido:</label>
+        <input type="number" id="numero" name="numero" required><br><br>
+        <label for="nome">Seu Nome:</label>
+        <input type="text" id="nome" name="nome" required><br><br>
+        <label for="telefone">Seu Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" required><br><br>
+        <button type="submit">Registrar Escolha</button>
+    </form>
+
+    <script>
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbzfxrW8jsTYls6UmkqDoNZ5bwN0ZnkEx4ex_RpALiK0m5ipYbh96DlD7GhmRUoB6PIlHQ/exec'; // Substitua pelo URL do seu script
+
+        async function carregarNumeros() {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            const listaNumerosDiv = document.getElementById('lista-numeros');
+            listaNumerosDiv.innerHTML = '';
+            data.forEach(item => {
+                const numeroDiv = document.createElement('div');
+                numeroDiv.textContent = `Número: ${item.numero}, Status: ${item.status}, Nome: ${item.nome || '-'}, Telefone: ${item.telefone || '-'}`;
+                listaNumerosDiv.appendChild(numeroDiv);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarNumeros);
+
+        const formRegistro = document.getElementById('form-registro');
+        formRegistro.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const numero = document.getElementById('numero').value;
+            const nome = document.getElementById('nome').value;
+            const telefone = document.getElementById('telefone').value;
+
+            const dataToSend = { numero: numero, nome: nome, telefone: telefone };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSend)
+            });
+
+            const result = await response.json();
+            alert(result.mensagem || result.erro);
+            carregarNumeros(); // Recarrega a lista após o registro
+            formRegistro.reset();
+        });
+    </script>
+</body>
+</html>
