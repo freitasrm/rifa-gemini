@@ -175,7 +175,26 @@
         </iframe>
     </div>
 
-    <h2>Escolha seu número da rifa</h2>
+        <h2>Registrar sua escolha</h2>
+    <form id="form-registro">
+        <label for="cotas">Quantidade de Cotas:</label>
+        <input type="cotas" id="cotas" name="cotas" required><br><br>
+        <label for="nome">Seu Nome:</label>
+        <input type="text" id="nome" name="nome" required><br><br>
+        <label for="telefone">Seu Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" required><br><br>
+        <button type="submit">Registrar Escolha</button>
+        <div id="loading-registro" style="display: none;">Registrando...</div>
+    </form>
+
+    <div class="iframe-container imagem-promocional-container">
+        <iframe loading="lazy" id="imagem-promocional"
+            src="https://www.canva.com/design/DAGkpeGgGEY/NJGYDWix-9cX64TEoV0xIQ/view?embed"
+            allowfullscreen="allowfullscreen" allow="fullscreen">
+        </iframe>
+    </div>
+
+         <h2>Total cotas compradas</h2>
     <div id="loading-inicial" style="display: none;">Carregando números...</div>
     <table id="tabela-numeros">
         <thead>
@@ -188,24 +207,7 @@
         </tbody>
     </table>
 
-    <div class="iframe-container imagem-promocional-container">
-        <iframe loading="lazy" id="imagem-promocional"
-            src="https://www.canva.com/design/DAGkpeGgGEY/NJGYDWix-9cX64TEoV0xIQ/view?embed"
-            allowfullscreen="allowfullscreen" allow="fullscreen">
-        </iframe>
-    </div>
-
-    <h2>Registrar sua escolha</h2>
-    <form id="form-registro">
-        <label for="cotas">Quantidade de Cotas:</label>
-        <input type="cotas" id="cotas" name="cotas" required><br><br>
-        <label for="nome">Seu Nome:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
-        <label for="telefone">Seu Telefone:</label>
-        <input type="tel" id="telefone" name="telefone" required><br><br>
-        <button type="submit">Registrar Escolha</button>
-        <div id="loading-registro" style="display: none;">Registrando...</div>
-    </form>
+    
 </main>
 
     <footer>
