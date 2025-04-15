@@ -181,7 +181,6 @@
         <thead>
             <tr>
                 <th>Cotas</th>
-                <th>Status</th>
                 <th>Nome</th>
             </tr>
         </thead>
@@ -232,11 +231,9 @@
                 data.forEach(item => {
                     const row = tabelaNumeros.insertRow();
                     const numeroCell = row.insertCell();
-                    const statusCell = row.insertCell();
                     const nomeCell = row.insertCell();
 
                     numeroCell.textContent = item.cotas;
-                    statusCell.textContent = item.status;
                     nomeCell.textContent = item.nome ? item.nome.split(' ')[0] : '-'; // Exibe apenas o primeiro nome
                 });
             } catch (error) {
