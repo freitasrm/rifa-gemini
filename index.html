@@ -355,7 +355,7 @@
 
 					numeroCell.textContent = item.cotas;
 					nomeCell.textContent = item.nome ? item.nome.split(' ')[0] : '-'; // Exibe apenas o primeiro nome
-					telefoneCell.textContent = item.telefone ? item.telefone.split(' ')[0] + '...' + item.telefone.split('-')[1] : '-'; // Exibe apenas o início e fim do número
+					telefoneCell.textContent = item.telefone ? item.telefone.split(' ')[0] + '...' + item.telefone.slice(-4) : '-'; // Exibe apenas o início e fim do número
 					statusCell.textContent = item.pago;
 
 				});
