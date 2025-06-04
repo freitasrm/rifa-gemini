@@ -2,462 +2,467 @@
 <html lang="pt-br">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Rifa Beneficente</title>
-	<style>
-		body {
-			font-family: sans-serif;
-			margin: 0;
-			background-color: #f4f4f4;
-			color: #333;
-		}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa Beneficente - Sorteio Realizado!</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
 
-		header {
-			background-color: #5cb85c;
-			/* Cor verde tema */
-			color: white;
-			padding: 20px 0;
-			text-align: center;
-		}
+        header {
+            background-color: #5cb85c;
+            /* Cor verde tema */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
 
-		header h1 {
-			margin: 0;
-		}
+        header h1 {
+            margin: 0;
+        }
 
-		.banner {
-			width: 100%;
-			display: block;
-			margin-bottom: 20px;
-			border-radius: 8px;
-			/* Opcional: bordas arredondadas */
-			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-			/* Opcional: sombra suave */
-		}
+        .banner {
+            width: 100%;
+            display: block;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            /* Opcional: bordas arredondadas */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Opcional: sombra suave */
+        }
 
-		main {
-			padding: 20px;
-			background-color: white;
-			margin: 20px auto;
-			max-width: 960px;
-			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-			border-radius: 8px;
-		}
+        main {
+            padding: 20px;
+            background-color: white;
+            margin: 20px auto;
+            max-width: 960px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
 
-		h2 {
-			color: #5cb85c;
-			border-bottom: 2px solid #5cb85c;
-			padding-bottom: 10px;
-			margin-top: 30px;
-		}
+        h2 {
+            color: #5cb85c;
+            border-bottom: 2px solid #5cb85c;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
 
-		#loading-inicial {
-			text-align: center;
-			margin-top: 10px;
-			font-style: italic;
-			color: #777;
-		}
+        #loading-inicial {
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+            color: #777;
+        }
 
-		#tabela-numeros {
-			width: 100%;
-			border-collapse: collapse;
-			margin-top: 10px;
-		}
+        #tabela-numeros {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
 
-		#tabela-numeros th,
-		#tabela-numeros td {
-			border: 1px solid #ddd;
-			padding: 8px;
-			text-align: left;
-		}
+        #tabela-numeros th,
+        #tabela-numeros td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
 
-		#tabela-numeros th {
-			background-color: #f2f2f2;
-		}
+        #tabela-numeros th {
+            background-color: #f2f2f2;
+        }
 
-		#form-registro label {
-			display: block;
-			margin-bottom: 5px;
-			font-weight: bold;
-		}
+        /* Estilos para tornar o site responsivo */
+        @media (max-width: 768px) {
+            main {
+                margin: 10px;
+                padding: 15px;
+            }
 
-		#form-registro input[type="number"],
-		#form-registro input[type="text"],
-		#form-registro input[type="tel"] {
-			width: calc(100% - 12px);
-			padding: 8px;
-			margin-bottom: 15px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			box-sizing: border-box;
-		}
+            #tabela-numeros th,
+            #tabela-numeros td {
+                font-size: 0.9em;
+                padding: 6px;
+            }
+        }
 
-		#form-registro button[type="submit"] {
-			background-color: #5cb85c;
-			color: white;
-			padding: 10px 15px;
-			border: none;
-			border-radius: 4px;
-			cursor: pointer;
-			font-size: 1em;
-		}
+        /* Estilo para a imagem promocional */
+        #imagem-promocional {
+            width: 100%;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+            /* Opcional: bordas arredondadas */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Opcional: sombra suave */
+            max-width: 600px;
+            /* Largura máxima para não estourar o layout */
+        }
 
-		#form-registro button[type="submit"]:hover {
-			background-color: #4cae4c;
-		}
+        .carousel-image {
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            object-fit: contain;
+            /* Ou cover */
+            transform: translate(-50%, -50%);
+        }
 
-		#loading-registro {
-			text-align: center;
-			margin-top: 10px;
-			font-style: italic;
-			color: #777;
-		}
+        .carousel-image.active {
+            opacity: 1;
+            position: absolute;
+            /* Garante que fique sobreposto */
+            top: 50%;
+            left: 50%;
+            object-fit: contain;
+            /* Ou cover */
+            transform: translate(-50%, -50%);
+        }
 
-		/* Estilos para tornar o site responsivo */
-		@media (max-width: 768px) {
-			main {
-				margin: 10px;
-				padding: 15px;
-			}
+        #carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            height: 750px;
+            /* Defina a altura desejada aqui */
+        }
 
-			#tabela-numeros th,
-			#tabela-numeros td {
-				font-size: 0.9em;
-				padding: 6px;
-			}
-		}
+        .sorteio-realizado-banner {
+            background-color: #ffeb3b;
+            /* Amarelo para destaque */
+            color: #333;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
 
-		/* Estilo para a imagem promocional */
-		#imagem-promocional {
-			width: 100%;
-			display: block;
-			margin: 20px auto;
-			border-radius: 8px;
-			/* Opcional: bordas arredondadas */
-			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-			/* Opcional: sombra suave */
-			max-width: 600px;
-			/* Largura máxima para não estourar o layout */
-		}
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            margin-top: 30px;
+        }
 
-		.carousel-image {
-			width: 100%;
-			opacity: 0;
-			transition: opacity 1s ease-in-out;
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			object-fit: contain;
-			/* Ou cover */
-			transform: translate(-50%, -50%);
-		}
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-		.carousel-image.active {
-			/* display: block; Remova esta linha */
-			opacity: 1;
-			position: absolute;
-			/* Garante que fique sobreposto */
-			top: 50%;
-			left: 50%;
-			object-fit: contain;
-			/* Ou cover */
-			transform: translate(-50%, -50%);
-		}
+        .mensagem-agradecimento {
+            background-color: #e0ffe0;
+            /* Fundo verde claro para a mensagem */
+            border: 2px solid #5cb85c;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
 
-		#carousel-container {
-			position: relative;
-			width: 100%;
-			max-width: 600px;
-			margin: 20px auto;
-			border-radius: 8px;
-			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-			overflow: hidden;
-			height: 750px;
-			/* Defina a altura desejada aqui */
-		}
-	</style>
+        .mensagem-agradecimento h3 {
+            color: #5cb85c;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
-	<header>
-		<h1>Rifa Beneficente</h1>
-		<p>Ajude uma causa nobre e concorra a um lindo centro de mesa!</p>
-	</header>
+    <header>
+        <h1>Rifa Beneficente</h1>
+        <p>Ajude uma causa nobre e concorra a um lindo centro de mesa!</p>
+    </header>
 
-	<main>
-		<img loading="lazy" src="banner.png" alt="Banner da Rifa" class="banner">
+    <main>
+        <div class="sorteio-realizado-banner" id="sorteio-info">
+            🎉 O sorteio já foi realizado! Confira os detalhes e o vídeo completo no final da página!
+            <a href="#video-sorteio" style="color: #007bff; text-decoration: underline;">Clique aqui para ir direto!</a>
+        </div>
 
-		<section style="margin-bottom: 30px; text-align: center;">
-			<h2 style="color: #5cb85c; font-size: 2em; margin-bottom: 15px;">Ajude a Sorrir: Rifa Solidária com um Toque
-				de Elegância Sgabello!</h2>
-			<p style="line-height: 1.6; margin-bottom: 10px;">Transforme a vida de crianças e adultos da comunidade do
-				Taquari! O Projeto Saúde Bucal, em parceria com o Projeto Taquari, está promovendo uma rifa especial
-				para levar sorrisos mais saudáveis a quem precisa.</p>
-			<p style="line-height: 1.6; margin-bottom: 10px;">Ao participar, você não só concorre a um lindo centro de
-				mesa da Sgabello (<a href="https://sgabello.com.br/" target="_blank"
-					style="color: #007bff; text-decoration: none;">conheça a beleza e qualidade em sgabello.com.br</a> e
-				<a href="https://www.instagram.com/sgabellointeriores/" target="_blank"
-					style="color: #007bff; text-decoration: none;">instagram.com/sgabellointeriores/</a>), uma peça que
-				irá agregar ainda mais charme ao seu lar, como também estará investindo diretamente na saúde bucal da
-				comunidade do Taquari.
-			</p>
-			<p style="line-height: 1.6; margin-bottom: 10px;">Não perca essa chance de fazer o bem e ainda ser premiado!
-			</p>
-		</section>
+        <img loading="lazy" src="banner.png" alt="Banner da Rifa" class="banner">
 
-		<section
-			style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
-			<h3 style="color: #5cb85c; font-size: 1.5em; margin-bottom: 10px; text-align: center;">Nosso Sorteio
-				Exclusivo e Transparente!</h3>
-			<p style="line-height: 1.6; margin-bottom: 10px;">Para garantir a transparência e a emoção do sorteio,
-				utilizaremos a plataforma
-				<a href="https://sorteio.com/sorteio-de-nomes" target="_blank"
-					style="color: #007bff; text-decoration: none;">sorteio.com/sorteio-de-nomes</a> para definir o
-				ganhador do lindo centro de mesa Sgabello!
-			</p>
-			<p style="line-height: 1.6; margin-bottom: 10px;"><span style="font-weight: bold;">Como Funciona:</span></p>
-			<ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6; margin-bottom: 10px;">
-				<li><span style="font-weight: bold;">Cada cota, mais chances!</span> Para cada cota que você adquirir
-					nesta rifa solidária, o seu nome será
-					incluído
-					<span style="font-weight: bold;">uma vez</span> no sistema de sorteio. Quanto mais cotas você
-					adquirir, maiores serão as suas chances de
-					levar para
-					casa essa peça exclusiva da Sgabello!
-				</li>
-				<li><span style="font-weight: bold;">Sorteio Gravado e Online:</span> O sorteio será gravado e
-					transmitido online para que todos possam
-					acompanhar o momento da
-					revelação do ganhador. Contaremos com a presença de 3 participantes para testemunhar o processo.
-				</li>
-				<li><span style="font-weight: bold;">Vídeo Disponível:</span> Caso você não possa acompanhar ao vivo,
-					não se preocupe! O vídeo do sorteio
-					ficará disponível
-					em nosso site para você assistir quando quiser.</li>
-			</ul>
-			<p style="line-height: 1.6; margin-bottom: 10px;"><span style="font-weight: bold;">Retirada do
-					Prêmio:</span></p>
-			<p style="line-height: 1.6; margin-bottom: 10px;">O maravilhoso centro de mesa da Sgabello poderá ser
-				retirado diretamente na loja
-				<a href="https://sgabello.com.br/" target="_blank"
-					style="color: #007bff; text-decoration: none;">Sgabello</a>, ou, se preferir, podemos combinar a
-				entrega diretamente com a pessoa que gentilmente ofereceu a peça para esta rifa solidária.
-			</p>
-		</section>
+        <section style="margin-bottom: 30px; text-align: center;">
+            <h2 style="color: #5cb85c; font-size: 2em; margin-bottom: 15px;">Ajude a Sorrir: Rifa Solidária com um Toque
+                de Elegância Sgabello!</h2>
+            <p style="line-height: 1.6; margin-bottom: 10px;">Transforme a vida de crianças e adultos da comunidade do
+                Taquari! O Projeto Saúde Bucal, em parceria com o Projeto Taquari, está promovendo uma rifa especial
+                para levar sorrisos mais saudáveis a quem precisa.</p>
+            <p style="line-height: 1.6; margin-bottom: 10px;">Ao participar, você não só concorre a um lindo centro de
+                mesa da Sgabello (<a href="https://sgabello.com.br/" target="_blank"
+                    style="color: #007bff; text-decoration: none;">conheça a beleza e qualidade em sgabello.com.br</a> e
+                <a href="https://www.instagram.com/sgabellointeriores/" target="_blank"
+                    style="color: #007bff; text-decoration: none;">instagram.com/sgabellointeriores/</a>), uma peça que
+                irá agregar ainda mais charme ao seu lar, como também estará investindo diretamente na saúde bucal da
+                comunidade do Taquari.
+            </p>
+            <p style="line-height: 1.6; margin-bottom: 10px;">Não perca essa chance de fazer o bem e ainda ser premiado!
+            </p>
+        </section>
 
-		<section
-			style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
-			<p style="line-height: 1.6; margin-bottom: 5px;">As cotas são limitadas: serão sorteadas até 200 cotas. O
-				sorteio será realizado no dia <span style="font-weight: bold;">21 de maio de 2025</span> caso sejam
-				vendidas mais de 100 cotas. Caso contrário,
-				a rifa será prolongada até atingirmos a arrecadação mínima necessária para o projeto.</p>
-			<p style="line-height: 1.6; margin-bottom: 5px;">Participe e seja parte dessa corrente de solidariedade!
-				Quanto mais rápido atingirmos a meta, mais cedo você poderá ter essa linda peça em sua casa!</p>
-		</section>
+        <section
+            style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
+            <h3 style="color: #5cb85c; font-size: 1.5em; margin-bottom: 10px; text-align: center;">Nosso Sorteio
+                Exclusivo e Transparente!</h3>
+            <p style="line-height: 1.6; margin-bottom: 10px;">Para garantir a transparência e a emoção do sorteio,
+                utilizaremos a plataforma
+                <a href="https://sorteio.com/sorteio-de-nomes" target="_blank"
+                    style="color: #007bff; text-decoration: none;">sorteio.com/sorteio-de-nomes</a> para definir o
+                ganhador do lindo centro de mesa Sgabello!
+            </p>
+            <p style="line-height: 1.6; margin-bottom: 10px;"><span style="font-weight: bold;">Como Funciona:</span></p>
+            <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6; margin-bottom: 10px;">
+                <li><span style="font-weight: bold;">Cada cota, mais chances!</span> Para cada cota que você adquirir
+                    nesta rifa solidária, o seu nome será
+                    incluído
+                    <span style="font-weight: bold;">uma vez</span> no sistema de sorteio. Quanto mais cotas você
+                    adquirir, maiores serão as suas chances de
+                    levar para
+                    casa essa peça exclusiva da Sgabello!
+                </li>
+                <li><span style="font-weight: bold;">Sorteio Gravado e Online:</span> O sorteio será gravado e
+                    transmitido online para que todos possam
+                    acompanhar o momento da
+                    revelação do ganhador. Contaremos com a presença de 3 participantes para testemunhar o processo.
+                </li>
+                <li><span style="font-weight: bold;">Vídeo Disponível:</span> Caso você não possa acompanhar ao vivo,
+                    não se preocupe! O vídeo do sorteio
+                    ficará disponível
+                    em nosso site para você assistir quando quiser.</li>
+            </ul>
+            <p style="line-height: 1.6; margin-bottom: 10px;"><span style="font-weight: bold;">Retirada do
+                    Prêmio:</span></p>
+            <p style="line-height: 1.6; margin-bottom: 10px;">O maravilhoso centro de mesa da Sgabello poderá ser
+                retirado diretamente na loja
+                <a href="https://sgabello.com.br/" target="_blank"
+                    style="color: #007bff; text-decoration: none;">Sgabello</a>, ou, se preferir, podemos combinar a
+                entrega diretamente com a pessoa que gentilmente ofereceu a peça para esta rifa solidária.
+            </p>
+        </section>
 
-		<section
-			style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
-			<p style="font-weight: bold; margin-bottom: 5px;">Para participar:</p>
-			<ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-				<li>Valor da cota <span style="font-weight: bold;">R$ 10,00</span>;</li>
-				<li>Informe a quantidade de cotas desejadas;</li>
-				<li>Informe seu nome e telefone.</li>
-				<li>Faça o PIX para o telefone <span style="font-weight: bold;">(41) 99973-3087</span> (Solange Costa).
-				</li>
-				<li>Envie o comprovante do PIX para o telefone <span style="font-weight: bold;">(41) 99973-3087</span>.
-				</li>
-				<li>Ao receber a confirmação, você estará participando e seu nome será incluído na tabela abaixo.</li>
-			</ul>
-		</section>
+        <section
+            style="margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; border-radius: 5px; background-color: #f9f9f9;">
+            <p style="line-height: 1.6; margin-bottom: 5px;">As cotas são limitadas: serão sorteadas até 200 cotas. O
+                sorteio será realizado no dia <span style="font-weight: bold;">21 de maio de 2025</span> caso sejam
+                vendidas mais de 100 cotas. Caso contrário,
+                a rifa será prolongada até atingirmos a arrecadação mínima necessária para o projeto.</p>
+            <p style="line-height: 1.6; margin-bottom: 5px;">Participe e seja parte dessa corrente de solidariedade!
+                Quanto mais rápido atingirmos a meta, mais cedo você poderá ter essa linda peça em sua casa!</p>
+        </section>
 
-		<section style="margin-top: 30px; text-align: center; color: #5cb85c; font-weight: bold;">
-			<p style="font-size: 1.2em;">Juntos, podemos levar mais saúde e alegria para o Taquari!</p>
-		</section>
+        <div id="carousel-container">
+            <img class="carousel-image" src="rifa.png" alt="Imagem 1" style="width: 100%; ">
+            <img class="carousel-image" src="rifa2.jpg" alt="Imagem 2" style="width: 100%;">
+            <img class="carousel-image" src="rifa3.jpg" alt="Imagem 3" style="width: 100%;">
+            <button id="prev-button"
+                style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: none; border: none; font-size: 20px; cursor: pointer; color: #333;">&lt;</button>
+            <button id="next-button"
+                style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: none; border: none; font-size: 20px; cursor: pointer; color: #333;">&gt;</button>
+        </div>
 
-		<h2>Registrar sua escolha</h2>
-		<form id="form-registro">
-			<label for="cotas">Quantidade de Cotas:</label>
-			<input type="number" id="cotas" name="cotas" required><br><br>
-			<label for="nome">Seu Nome:</label>
-			<input type="text" id="nome" name="nome" required><br><br>
-			<label for="telefone">Seu Telefone:</label>
-			<input type="tel" id="telefone" name="telefone" required><br><br>
-			<button type="submit">Registrar Escolha</button>
-			<div id="loading-registro" style="display: none;">Registrando...</div>
-		</form>
+        <h2>Total cotas compradas</h2>
+        <div id="loading-inicial" style="display: none;">Carregando números...</div>
+        <table id="tabela-numeros">
+            <thead>
+                <tr>
+                    <th>Cotas</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
 
-		<div id="carousel-container">
-			<img class="carousel-image" src="rifa.png" alt="Imagem 1" style="width: 100%; ">
-			<img class="carousel-image" src="rifa2.jpg" alt="Imagem 2" style="width: 100%;">
-			<img class="carousel-image" src="rifa3.jpg" alt="Imagem 3" style="width: 100%;">
-			<button id="prev-button"
-				style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: none; border: none; font-size: 20px; cursor: pointer; color: #333;">&lt;</button>
-			<button id="next-button"
-				style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: none; border: none; font-size: 20px; cursor: pointer; color: #333;">&gt;</button>
-		</div>
+        <section class="mensagem-agradecimento">
+            <h3 style="color: #5cb85c; font-size: 1.8em;">🎉 Sorteio Realizado com Sucesso! 🎉</h3>
+            <p>Queremos agradecer imensamente a todos que participaram da nossa rifa beneficente! Graças às **310 cotas compradas**, conseguimos arrecadar exatamente o valor que o projeto precisava para continuar levando sorrisos e saúde bucal à comunidade do Taquari. A solidariedade de vocês fez toda a diferença!</p>
+            <p>O sorteio foi realizado com total transparência em uma reunião do Zoom, no dia **04/06/2025 às 08:37**. E temos um ganhador!</p>
+            <p style="font-size: 1.3em; font-weight: bold; color: #333;">O grande sorteado é o(a) <span style="color: #e65c00;">JORGE</span>, com o final de telefone <span style="color: #e65c00;">9749</span>!</p>
+            <p>Parabéns, JORGE! Entraremos em contato para combinar a retirada do prêmio.</p>
+            <p>A gravação oficial do sorteio pode ser conferida abaixo ou obtida diretamente com os organizadores da rifa.</p>
+            <p style="font-size: 1.2em; margin-top: 15px;">Muito obrigado a todos por fazerem parte desta causa tão especial!</p>
+        </section>
 
-		<h2>Total cotas compradas</h2>
-		<div id="loading-inicial" style="display: none;">Carregando números...</div>
-		<table id="tabela-numeros">
-			<thead>
-				<tr>
-					<th>Cotas</th>
-					<th>Nome</th>
-					<th>Telefone</th>
-					<th>Status</th>
-				</tr>
-			</thead>
-			<tbody>
-			</tbody>
-		</table>
-	</main>
+        <h2 id="video-sorteio">Vídeo do Sorteio</h2>
+        <div class="video-container">
+            <video controls preload="metadata">
+                <source src="rifa - Planilhas Google - Google Chrome 2025-06-04 08-37-47.mp4" type="video/mp4">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+        </div>
+    </main>
 
-	<footer>
-		<p style="text-align: center; margin-top: 20px; color: #777;">Organizado com ❤️</p>
-	</footer>
+    <footer>
+        <p style="text-align: center; margin-top: 20px; color: #777;">Organizado com ❤️</p>
+    </footer>
 
-	<script>
-		const apiUrl = 'https://script.google.com/macros/s/AKfycbzYivDkS8xHNrhuLrlE3I9d1kobFTSo1dge5RUANvf1M8wzJJfUXfmYMhuABDr5JlCRZw/exec';
+    <script>
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbzYivDkS8xHNrhuLrlE3I9d1kobFTSo1dge5RUANvf1M8wzJJfUXfmYMhuABDr5JlCRZw/exec';
 
-		const tabelaNumeros = document.getElementById('tabela-numeros').getElementsByTagName('tbody')[0];
-		const loadingInicial = document.getElementById('loading-inicial');
-		const loadingRegistro = document.getElementById('loading-registro');
-		const formRegistro = document.getElementById('form-registro');
-		const telefoneInput = document.getElementById('telefone');
+        const tabelaNumeros = document.getElementById('tabela-numeros').getElementsByTagName('tbody')[0];
+        const loadingInicial = document.getElementById('loading-inicial');
+        // const loadingRegistro = document.getElementById('loading-registro'); // Comentado/Removido
+        // const formRegistro = document.getElementById('form-registro'); // Comentado/Removido
+        // const telefoneInput = document.getElementById('telefone'); // Comentado/Removido
 
-		function formatarTelefone(telefone) {
-			const cleaned = ('' + telefone).replace(/\D/g, '');
-			const match = cleaned.match(/^(\d{2})(\d{0,5})(\d{0,4})$/);
-			if (match) {
-				return '(' + match[1] + ') ' + (match[2] ? match[2] + (match[3] ? '-' + match[3] : '') : '');
-			}
-			return telefone;
-		}
+        /* Comentado/Removido o código de formatação de telefone, pois o formulário será removido
+        function formatarTelefone(telefone) {
+            const cleaned = ('' + telefone).replace(/\D/g, '');
+            const match = cleaned.match(/^(\d{2})(\d{0,5})(\d{0,4})$/);
+            if (match) {
+                return '(' + match[1] + ') ' + (match[2] ? match[2] + (match[3] ? '-' + match[3] : '') : '');
+            }
+            return telefone;
+        }
 
-		telefoneInput.addEventListener('input', function (e) {
-			this.value = formatarTelefone(this.value);
-		});
+        telefoneInput.addEventListener('input', function (e) {
+            this.value = formatarTelefone(this.value);
+        });
+        */
 
-		async function carregarNumeros() {
-			loadingInicial.style.display = 'block';
-			tabelaNumeros.innerHTML = ''; // Limpa a tabela antes de carregar
+        async function carregarNumeros() {
+            loadingInicial.style.display = 'block';
+            tabelaNumeros.innerHTML = ''; // Limpa a tabela antes de carregar
 
-			try {
-				const response = await fetch(apiUrl);
-				const data = await response.json();
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
 
-				data.forEach(item => {
-					const row = tabelaNumeros.insertRow();
-					const numeroCell = row.insertCell();
-					const nomeCell = row.insertCell();
-					const telefoneCell = row.insertCell();
-					const statusCell = row.insertCell();
+                data.forEach(item => {
+                    const row = tabelaNumeros.insertRow();
+                    const numeroCell = row.insertCell();
+                    const nomeCell = row.insertCell();
+                    const telefoneCell = row.insertCell();
+                    const statusCell = row.insertCell();
 
-					numeroCell.textContent = item.cotas;
-					nomeCell.textContent = item.nome ? item.nome.split(' ')[0] : '-'; // Exibe apenas o primeiro nome
-					telefoneCell.textContent = item.telefone ? item.telefone.split(' ')[0] + '...' + item.telefone.slice(-4) : '-'; // Exibe apenas o início e fim do número
-					statusCell.textContent = item.pago;
+                    numeroCell.textContent = item.cotas;
+                    nomeCell.textContent = item.nome ? item.nome.split(' ')[0] : '-'; // Exibe apenas o primeiro nome
+                    telefoneCell.textContent = item.telefone ? item.telefone.split(' ')[0] + '...' + item.telefone.slice(-4) : '-'; // Exibe apenas o início e fim do número
+                    statusCell.textContent = item.pago;
 
-				});
-			} catch (error) {
-				console.error("Erro ao carregar números:", error);
-				// Você pode exibir uma mensagem de erro na página aqui
-			} finally {
-				loadingInicial.style.display = 'none';
-			}
-		}
+                });
+            } catch (error) {
+                console.error("Erro ao carregar números:", error);
+                // Você pode exibir uma mensagem de erro na página aqui
+            } finally {
+                loadingInicial.style.display = 'none';
+            }
+        }
 
-		document.addEventListener('DOMContentLoaded', carregarNumeros);
+        document.addEventListener('DOMContentLoaded', carregarNumeros);
 
-		formRegistro.addEventListener('submit', async (event) => {
-			event.preventDefault();
-			loadingRegistro.style.display = 'block';
-			const cotas = document.getElementById('cotas').value;
-			const nome = document.getElementById('nome').value;
-			const telefone = document.getElementById('telefone').value;
+        /* Comentado/Removido o código de registro, pois o formulário será removido
+        formRegistro.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            loadingRegistro.style.display = 'block';
+            const cotas = document.getElementById('cotas').value;
+            const nome = document.getElementById('nome').value;
+            const telefone = document.getElementById('telefone').value;
 
-			const dataToSend = { cotas: cotas, nome: nome, telefone: telefone };
+            const dataToSend = { cotas: cotas, nome: nome, telefone: telefone };
 
-			try {
-				const response = await fetch(apiUrl, {
-					method: "POST",
-					mode: "no-cors",
-					cache: "no-cache",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					redirect: "follow",
-					body: JSON.stringify(dataToSend)
-				});
+            try {
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    mode: "no-cors",
+                    cache: "no-cache",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    redirect: "follow",
+                    body: JSON.stringify(dataToSend)
+                });
 
-				// Como estamos em modo "no-cors", não podemos acessar o corpo da resposta de forma confiável.
-				// Assumimos que a inclusão foi bem-sucedida do lado do cliente e recarregamos a tabela.
-				alert("Registro enviado!"); // Feedback básico para o usuário
-				carregarNumeros(); // Recarrega a lista de números após o registro
-				formRegistro.reset();
-			} catch (error) {
-				console.error("Erro ao registrar escolha:", error);
-				alert("Ocorreu um erro ao registrar sua escolha.");
-			} finally {
-				loadingRegistro.style.display = 'none';
-			}
-		});
+                // Como estamos em modo "no-cors", não podemos acessar o corpo da resposta de forma confiável.
+                // Assumimos que a inclusão foi bem-sucedida do lado do cliente e recarregamos a tabela.
+                alert("Registro enviado!"); // Feedback básico para o usuário
+                carregarNumeros(); // Recarrega a lista de números após o registro
+                formRegistro.reset();
+            } catch (error) {
+                console.error("Erro ao registrar escolha:", error);
+                alert("Ocorreu um erro ao registrar sua escolha.");
+            } finally {
+                loadingRegistro.style.display = 'none';
+            }
+        });
+        */
 
-		const carouselContainer = document.getElementById('carousel-container');
-		const carouselImages = document.querySelectorAll('.carousel-image');
-		const prevButton = document.getElementById('prev-button');
-		const nextButton = document.getElementById('next-button');
-		let currentIndex = 0;
-		const intervalTime = 5000; // Tempo em milissegundos (5 segundos)
-		let intervalId;
+        const carouselContainer = document.getElementById('carousel-container');
+        const carouselImages = document.querySelectorAll('.carousel-image');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        let currentIndex = 0;
+        const intervalTime = 5000; // Tempo em milissegundos (5 segundos)
+        let intervalId;
 
-		function showImage(index) {
-			carouselImages.forEach((image, i) => {
-				if (i === index) {
-					image.classList.add('active');
-				} else {
-					image.classList.remove('active');
-				}
-			});
-		}
+        function showImage(index) {
+            carouselImages.forEach((image, i) => {
+                if (i === index) {
+                    image.classList.add('active');
+                } else {
+                    image.classList.remove('active');
+                }
+            });
+        }
 
-		function nextImage() {
-			currentIndex = (currentIndex + 1) % carouselImages.length;
-			showImage(currentIndex);
-		}
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % carouselImages.length;
+            showImage(currentIndex);
+        }
 
-		function prevImage() {
-			currentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
-			showImage(currentIndex);
-		}
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + carouselImages.length) % carouselImages.length;
+            showImage(currentIndex);
+        }
 
-		function startCarousel() {
-			intervalId = setInterval(nextImage, intervalTime);
-		}
+        function startCarousel() {
+            intervalId = setInterval(nextImage, intervalTime);
+        }
 
-		function stopCarousel() {
-			clearInterval(intervalId);
-		}
+        function stopCarousel() {
+            clearInterval(intervalId);
+        }
 
-		// Iniciar o carrossel automaticamente
-		startCarousel();
+        // Iniciar o carrossel automaticamente
+        startCarousel();
 
-		// Pausar o carrossel ao passar o mouse e reiniciar ao sair
-		carouselContainer.addEventListener('mouseenter', stopCarousel);
-		carouselContainer.addEventListener('mouseleave', startCarousel);
+        // Pausar o carrossel ao passar o mouse e reiniciar ao sair
+        carouselContainer.addEventListener('mouseenter', stopCarousel);
+        carouselContainer.addEventListener('mouseleave', startCarousel);
 
-		// Navegação manual
-		nextButton.addEventListener('click', () => {
-			nextImage();
-		});
+        // Navegação manual
+        nextButton.addEventListener('click', () => {
+            nextImage();
+        });
 
-		prevButton.addEventListener('click', () => {
-			prevImage();
-		});
+        prevButton.addEventListener('click', () => {
+            prevImage();
+        });
 
-		// Mostrar a primeira imagem ao carregar a página
-		showImage(currentIndex);
-	</script>
+        // Mostrar a primeira imagem ao carregar a página
+        showImage(currentIndex);
+    </script>
 </body>
 
 </html>
